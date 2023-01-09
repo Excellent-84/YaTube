@@ -2,7 +2,7 @@
 {% block title %}Посты избранных авторов{% endblock %}
 {% block content %}
   <h1> Посты избранных авторов </h1>
-  {% include 'includes/switcher.html' %}
+  {% include 'includes/switcher.html' with follow=True %}
   {% for post in page_obj %}  
     {% include 'includes/one_post.html' %}
   {% endfor %}

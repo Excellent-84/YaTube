@@ -1,22 +1,12 @@
 from django import forms
 
-from .models import Post, Comment
+from .models import Comment, Post
 
 
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = ('text', 'group', 'image')
-        labels = {
-            'text': 'Текст поста',
-            'group': 'Группа',
-            'image': 'Картинка',
-        }
-        help_texts = {
-            'text': 'Текст нового поста',
-            'group': 'Выберите группу',
-            'image': 'Выберите картинку',
-        }
 
 
 class CommentForm(forms.ModelForm):
@@ -24,4 +14,3 @@ class CommentForm(forms.ModelForm):
         model = Comment
         fields = ('text',)
         labels = {'text': 'Текст комментария'}
-        help_texts = {'text': 'Введите текст комментария'}

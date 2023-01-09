@@ -188,9 +188,9 @@ class PostPagesTests(TestCase):
         response_third = self.authorized_client.get(reverse('posts:index'))
         self.assertNotEqual(response.content, response_third.content)
 
-    def test_follow_and_unfollow(self):
+    def test_profile_follow(self):
         """Авторизованный пользователь может подписываться
-        на других пользователей и удалять их из подписок.
+        на других пользователей.
         """
         author_follow = User.objects.create_user(username='author_follow')
         self.authorized_client.get(reverse(
@@ -201,6 +201,16 @@ class PostPagesTests(TestCase):
         self.assertTrue(Follow.objects.filter(
             user=self.user, author=author_follow
         ).exists())
+
+    def test_profile_unfollow(self):
+        """Авторизованный пользователь может
+        удалять других пользователей из подписок.
+        """
+        author_follow = User.objects.create_user(username='author_follow')
+        self.authorized_client.get(reverse(
+            'posts:profile_follow',
+            kwargs={'username': author_follow.username})
+        )
         self.authorized_client.get(reverse(
             'posts:profile_unfollow',
             kwargs={'username': author_follow.username})
@@ -212,16 +222,13 @@ class PostPagesTests(TestCase):
 
     def test_new_posts_in_follow_index(self):
         """Новая запись пользователя появляется в ленте тех,
-        кто на него подписан и не появляется в ленте тех, кто не подписан.
+        кто на него подписан.
         """
         author_follow = User.objects.create_user(username='Подписан')
         self.authorized_client.get(reverse(
             'posts:profile_follow',
             kwargs={'username': author_follow.username})
         )
-        author_unfollow = User.objects.create_user(username='НЕ_подписан')
-        author_unfollow_client = Client()
-        author_unfollow_client.force_login(author_unfollow)
         new_post = Post.objects.create(
             text='Тестовый пост подписки',
             author=author_follow,
@@ -230,5 +237,19 @@ class PostPagesTests(TestCase):
         response = self.authorized_client.get(reverse('posts:follow_index'))
         self.assertEqual(len(response.context['page_obj']), 1)
         self.assertEqual(response.context['page_obj'][0], new_post)
+
+    def test_new_posts_not_in_follow_index(self):
+        """Новая запись пользователя не появляется в ленте тех,
+        кто на него не подписан.
+        """
+        author_follow = User.objects.create_user(username='Подписан')
+        author_unfollow = User.objects.create_user(username='НЕ_подписан')
+        author_unfollow_client = Client()
+        author_unfollow_client.force_login(author_unfollow)
+        Post.objects.create(
+            text='Тестовый пост подписки',
+            author=author_follow,
+            group=self.group
+        )
         response = author_unfollow_client.get(reverse('posts:follow_index'))
         self.assertEqual(len(response.context['page_obj']), 0)

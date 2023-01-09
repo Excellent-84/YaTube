@@ -42,6 +42,7 @@ class Post(models.Model):
         'Картинка',
         upload_to='posts/',
         blank=True,
+        null=True,
         help_text='Выберите картинку'
     )
 
@@ -97,3 +98,8 @@ class Follow(models.Model):
         on_delete=models.CASCADE,
         related_name='following'
     )
+
+    class Meta:
+        constraints = [models.UniqueConstraint(
+            fields=['user', 'author'], name='unigue_follow')
+        ]

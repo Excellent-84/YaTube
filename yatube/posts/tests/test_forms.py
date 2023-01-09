@@ -145,3 +145,24 @@ class PostFormTests(TestCase):
         )
         self.assertEqual(Comment.objects.count(), 1)
         self.assertEqual(comment_first.text, form_data['text'])
+
+    def test_anonymus_user_cannot_creat_comment(self):
+        """Неавторизованный пользователь не может оставить комментарий."""
+        guest_client = Client()
+        post = Post.objects.create(
+            text='Тестовый пост',
+            author=self.user,
+            group=self.group,
+        )
+        form_data = {
+            'text': 'Тестовый комментарий',
+            'author': self.user,
+        }
+        redirect_url = f'/auth/login/?next=/posts/{post.id}/comment/'
+        response = guest_client.post(
+            reverse('posts:add_comment', kwargs={'post_id': post.id}),
+            data=form_data,
+            follow=True
+        )
+        self.assertRedirects(response, redirect_url)
+        self.assertEqual(Comment.objects.count(), 0)

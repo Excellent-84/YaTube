@@ -18,7 +18,7 @@ YaTube/yatube/posts/tests/
 ```
 
 ### Стек технологий:
-<img src="https://img.shields.io/badge/Python-FFFFFF?style=for-the-badge&logo=python&logoColor=3776AB"/><img src="https://img.shields.io/badge/django-FFFFFF?style=for-the-badge&logo=django&logoColor=082E08"/><img src="https://img.shields.io/badge/Unittest-FFFFFF?style=for-the-badge&logo=&logoColor=361508"/>
+<img src="https://img.shields.io/badge/Python-FFFFFF?style=for-the-badge&logo=python&logoColor=3776AB"/><img src="https://img.shields.io/badge/django-FFFFFF?style=for-the-badge&logo=django&logoColor=082E08"/><img src="https://img.shields.io/badge/SQLite-FFFFFF?style=for-the-badge&logo=SQLite&logoColor=003B57"/><img src="https://img.shields.io/badge/Unittest-FFFFFF?style=for-the-badge&logo=&logoColor=361508"/>
 
 ### Как запустить проект:
 

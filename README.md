@@ -45,9 +45,15 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
+#### Создать файл .env и указать необходимые токены по примеру .env.example:
+``` 
+touch .env
+```
+
 ##### Выполнить миграции:
 
-``` 
+```
+cd yatube
 python3 manage.py migrate
 ```
 

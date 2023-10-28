@@ -45,7 +45,7 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-#### Создать файл .env и указать необходимые токены по примеру .env.example:
+##### Создать файл .env и указать необходимые токены по примеру .env.example:
 ``` 
 touch .env
 ```

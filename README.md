@@ -20,7 +20,7 @@ YaTube/yatube/posts/tests/
 ### Стек технологий:
 
  * ##### Python 3.9
- * ##### Django 2.2
+ * ##### Django 3.2.20
  * ##### Unittest
 
 ### Как запустить проект:

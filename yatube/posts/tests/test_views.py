@@ -1,5 +1,6 @@
 import shutil
 import tempfile
+from http import HTTPStatus
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
@@ -8,10 +9,8 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import Client, TestCase, override_settings
 from django.urls import reverse
 
-from http import HTTPStatus
-
-from ..models import Follow, Group, Post
 from ..forms import PostForm
+from ..models import Follow, Group, Post
 
 TEMP_MEDIA_ROOT = tempfile.mkdtemp(dir=settings.BASE_DIR)
 
@@ -207,9 +206,9 @@ class PostPagesTests(TestCase):
         удалять других пользователей из подписок.
         """
         author_follow = User.objects.create_user(username='author_follow')
-        self.authorized_client.get(reverse(
-            'posts:profile_follow',
-            kwargs={'username': author_follow.username})
+        Follow.objects.create(
+            user=self.user,
+            author=author_follow
         )
         self.authorized_client.get(reverse(
             'posts:profile_unfollow',
